@@ -16,6 +16,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", path: "java.sh"
   config.vm.provision "shell", path: "gradle.sh"  
   config.vm.provision "shell", path: "jenkins.sh"
+  config.vm.provision "shell", path: "git.sh"
+  
+  config.vm.network :forwarded_port, guest: 8080, host: 8080  
   
 
   # The url from where the 'config.vm.box' box will be fetched if it
