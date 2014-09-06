@@ -17,7 +17,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", path: "gradle.sh"  
   config.vm.provision "shell", path: "jenkins.sh"
   config.vm.provision "shell", path: "git.sh"
-  config.vm.provision "shell", path: "joe.sh"
   
   config.vm.network :forwarded_port, guest: 8080, host: 8080  
   
