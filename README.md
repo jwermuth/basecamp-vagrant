@@ -8,4 +8,9 @@ Virtualbox 4.3.10
 Ubuntu 14.04.
 vagrant 1.4.3
 
-Start by running vagrant up --provision
+On ubuntu installing this would be something like
+sudo apt-get install vagrant
+sudo apt-get install virtualbox
+sudo apt-get install git
+got clone https://github.com/jwermuth/basecamp-vagrant.git
+vagrant up --provision
