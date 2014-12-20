@@ -3,3 +3,10 @@
 *~
 /.vagrant/
 /nohup.out
+
+# Gradle wrapper
+/.gradle/
+gradle/
+
+# Eclipse
+.project

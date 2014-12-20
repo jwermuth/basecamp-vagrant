@@ -1,0 +1,11 @@
+// Added gradle, so I can edit my project from a real IDE
+// Run "gradle eclipse" to generate eclipse project files.
+
+apply plugin: 'eclipse'
+
+
+// Allow (me) to build gradle wrapper (gradlew and gradlew.bat) so 
+// other can run the build targets without having gradle installed
+task createWrapper(type: Wrapper) {
+    gradleVersion = '2.2'
+}
