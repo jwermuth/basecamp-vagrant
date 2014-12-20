@@ -25,9 +25,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", path: "git.sh"
   # I use gradle as build tool
   config.vm.provision "shell", path: "gradle.sh"
-  # Get, provision and start Jenkins  
+  
+  # Get, provision and start Jenkins
+  #
+  # To use jenkins you can log in to the machine with 
+  # vagrant ssh
+  # and then do sudo su jenkins  
   config.vm.provision "shell", path: "jenkins-install.sh"
-  config.vm.provision "shell", path: "jenkins-configure.sh"  
+  config.vm.provision "shell", path: "jenkins-configure.sh"
+  #  
   config.vm.provision "shell", path: "jenkins-allow-restart.sh"
   config.vm.provision "shell", path: "jenkins-restart.sh"
   

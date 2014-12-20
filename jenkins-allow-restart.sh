@@ -9,6 +9,10 @@ RESTART_SCRIPT=restart-jenkins.sh
 echo "#!/bin/bash" > $JENKINS_HOME/$RESTART_SCRIPT
 echo "/etc/init.d/jenkins restart" >> $JENKINS_HOME/$RESTART_SCRIPT
 
+# Set permissions on restart script
+chmod u+x $JENKINS_HOME/$RESTART_SCRIPT
+chown jenkins:jenkins $JENKINS_HOME/$RESTART_SCRIPT
+
 # Allow jenkins to execute script as root
 if ! grep -q "$COMMAND" /etc/sudoers; then
    echo $COMMAND >> /etc/sudoers
