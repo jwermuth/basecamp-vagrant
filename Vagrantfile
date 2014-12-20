@@ -14,14 +14,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  # config.vm.box_url = "http://domain.com/path/to/above.box"  
   config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
 
-  ## Jesper Development Environment
+  # Update package system
+  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
+  
+  # Development environment
   config.vm.provision "shell", path: "java.sh"
-  config.vm.provision "shell", path: "git.sh"
-  config.vm.provision "shell", path: "gradle.sh"  
   # installing jenkins requires git
+  config.vm.provision "shell", path: "git.sh"
+  # I use gradle as build tool
+  config.vm.provision "shell", path: "gradle.sh"
+  # Get, provision and start Jenkins  
   config.vm.provision "shell", path: "jenkins-install.sh"
   config.vm.provision "shell", path: "jenkins-configure.sh"  
   config.vm.provision "shell", path: "jenkins-allow-restart.sh"
@@ -29,6 +33,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   config.vm.network :forwarded_port, guest: 8080, host: 8080  
   
+end
+
+
+
+
+# All the stuff below is what was in the example Vagrantfile created with vagrant init.
+# I have moved it below to keep focus on the active stuff above, but its filled with
+# good examples, so I have not deleted it. 
+
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
@@ -128,4 +141,3 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # chef-validator, unless you changed the configuration.
   #
   #   chef.validation_client_name = "ORGNAME-validator"
-end
