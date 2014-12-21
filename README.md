@@ -3,15 +3,20 @@
 
 This project contains the code behind a demo of vagrant/git/jenkins for IT Basecamp 2015. The image is from IT Basecamp 2014.
 
-The goal is to provide an Out Of the Box solution to create a Continuous Integration environment under revision control on a virtual machine that can be moved to (another) virtual environment.
+The demo shows a real life example of how you can build complete boxes with functionality using Vagrant. The example provides an Out Of the Box solution to create a Continuous Integration environment under revision control on a virtual machine that can be moved to (another) virtual environment. A developer can use this to get a project under full CI with little effort. You will need fairly high experience/understanding of code, CI, Revision Control and Provisioning to get the most of out of this project
 
+If you clone and run this project (from the guidelines below) you will end up with a virtual machine running under VirtualBox. The machine will have jenkins running. You can inspect the running Jenkins at http://localhost:8080/
 
-This will install a virtual machine with jenkins and some build tools (Java, gradle, git).
+The machine will have a little development environment installed (Java, gradle, git). You can add any installations you like for your environment (e.g. ruby, python, whatever)
+
+##Prerequisites 
 
 At the hour of writing, I have:
 - Virtualbox 4.3.10
 - Ubuntu 14.04.
 - vagrant 1.4.3
+
+### Installing on Ubuntu
 
 On ubuntu installing this would be something like
 sudo apt-get install vagrant
@@ -21,6 +26,16 @@ git clone https://github.com/jwermuth/basecamp-vagrant.git
 (or, for ssh)
 git clone git@github.com:jwermuth/basecamp-vagrant.git
 vagrant up --provision
+
+### Installing on windows
+
+I have focused on Ubuntu. If you try this on Windows, feel free to make a **Pull Request** if you try this.
+
+### Installing on Mac
+
+A friend did this without hazzle, so its possible. I have not tried it.
+
+
 
 #User Stories
 
