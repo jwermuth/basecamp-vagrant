@@ -19,16 +19,21 @@ At the hour of writing, I have:
 ### Installing on Ubuntu
 
 On ubuntu installing this would be something like
-sudo apt-get install vagrant
-sudo apt-get install virtualbox
-sudo apt-get install git
-git clone https://github.com/jwermuth/basecamp-vagrant.git
-(or, for ssh)
-git clone git@github.com:jwermuth/basecamp-vagrant.git
-vagrant up --provision
-firefox http://localhost:8080/
+
+    sudo apt-get install vagrant
+    sudo apt-get install virtualbox
+    sudo apt-get install git
+    git clone https://github.com/jwermuth/basecamp-vagrant.git
+    # (or, for ssh)
+    git clone git@github.com:jwermuth/basecamp-vagrant.git
+    vagrant up --provision
+    sleep 30
+    firefox http://localhost:8080/
 
 Now you should see Jenkins up and running in you web browser
+
+You can access the machine with
+    vagrant ssh
 
 ### Installing on windows
 
@@ -53,5 +58,7 @@ A friend did this without hazzle, so its possible. I have not tried it.
 
 ##Backlog
 * As a Developer I want to run the Box I built with Vagrant in the cloud, so I dont use resources on my own machine to do CI stuff
+* As a Developer I want to be able to provide sensitive information (e.g. my password and email) to the vagrant build process in a safe way, so I can configure my box with the right settings without anyone else beeing able to retrieve the sensitive information
+ 
 
 

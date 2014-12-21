@@ -1,6 +1,24 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+#### USER PARAMETERIZE ##############################################################
+# This section allows you to parametrize the vagrant build process.
+
+# When you push to a repo, this is the user that will be used
+GIT_USER = "jwermuth"
+
+# When you push to a repo, this is the repo you will push to 
+# example git@github.com:jwermuth/basecamp-vagrant.git
+# Normally you would want to push to your own clone
+# If you use ssh, you have to provide public key from the virtual machine to github, 
+#    which is not automated. For now, just use https
+GIT_REPO = "https://github.com/jwermuth/basecamp-vagrant.git"
+
+# This is the email Jenkins will send to when errors occur. Please dont use mine
+EMAIL = "jwermuth@gmail.com"
+
+#####################################################################################
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -16,8 +34,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # doesn't already exist on the user's system.
   config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
 
-  # Update package system
-  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
+  # Update package system. You can skip this during development
+  #config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
   
   # Development environment
   config.vm.provision "shell", path: "java.sh"
@@ -32,7 +50,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # vagrant ssh
   # and then do sudo su jenkins  
   config.vm.provision "shell", path: "jenkins-install.sh"
-  config.vm.provision "shell", path: "jenkins-configure.sh"
+  config.vm.provision "shell", path: "jenkins-configure.sh", args:[GIT_USER, GIT_REPO, EMAIL]
   #  
   config.vm.provision "shell", path: "jenkins-allow-restart.sh"
   config.vm.provision "shell", path: "jenkins-restart.sh"
