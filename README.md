@@ -29,10 +29,3 @@ vagrant up --provision
 
 ###Backlog
 
-```javascript
-function fancyAlert(arg) {
-  if(arg) {
-    $.facebox({div:'#foo'})
-  }
-}
-```
