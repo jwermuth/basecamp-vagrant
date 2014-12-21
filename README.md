@@ -20,7 +20,9 @@ On ubuntu installing this would be something like
 sudo apt-get install vagrant
 sudo apt-get install virtualbox
 sudo apt-get install git
-got clone https://github.com/jwermuth/basecamp-vagrant.git
+git clone https://github.com/jwermuth/basecamp-vagrant.git
+(for ssh)
+git clone git@github.com:jwermuth/basecamp-vagrant.git
 vagrant up --provision
 
 
