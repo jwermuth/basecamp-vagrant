@@ -19,13 +19,16 @@ At the hour of writing, I have:
 ### Installing on Ubuntu
 
 On ubuntu installing this would be something like
-sudo apt-get install vagrant
-sudo apt-get install virtualbox
-sudo apt-get install git
-git clone https://github.com/jwermuth/basecamp-vagrant.git
+
+* sudo apt-get install vagrant
+* sudo apt-get install virtualbox
+* sudo apt-get install git
+* git clone https://github.com/jwermuth/basecamp-vagrant.git
+
 (or, for ssh)
-git clone git@github.com:jwermuth/basecamp-vagrant.git
-vagrant up --provision
+
+* git clone git@github.com:jwermuth/basecamp-vagrant.git
+* vagrant up --provision
 
 ### Installing on windows
 
