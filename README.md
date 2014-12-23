@@ -24,11 +24,11 @@ On ubuntu installing this would be something like
 * sudo apt-get install virtualbox
 * sudo apt-get install git
 * git clone https://github.com/jwermuth/basecamp-vagrant.git
-
-(or, for ssh)
-
-* git clone git@github.com:jwermuth/basecamp-vagrant.git
 * vagrant up --provision
+
+If you want to use ssh, clone *git@github.com:jwermuth/basecamp-vagrant.git* instead.
+
+
 
 ### Installing on windows
 
