@@ -20,24 +20,17 @@ At the hour of writing, I have:
 
 On ubuntu installing this would be something like
 
-    sudo apt-get install vagrant
-    sudo apt-get install virtualbox
-    sudo apt-get install git
-    git clone https://github.com/jwermuth/basecamp-vagrant.git
-    # (or, for ssh)
-    git clone git@github.com:jwermuth/basecamp-vagrant.git
-    vagrant up --provision
-    sleep 30
-    firefox http://localhost:8080/
+* sudo apt-get install vagrant
+* sudo apt-get install virtualbox
+* sudo apt-get install git
+* git clone https://github.com/jwermuth/basecamp-vagrant.git
+* vagrant up --provision
 
-Now you should see Jenkins up and running in you web browser
-
-You can access the machine with
-    vagrant ssh
+If you want to use ssh, clone *git@github.com:jwermuth/basecamp-vagrant.git* instead.
 
 ### Installing on windows
 
-I have focused on Ubuntu. If you try this on Windows, feel free to make a **Pull Request** with any comments/notes you may have.
+I have focused on Ubuntu. If you try this on Windows, feel free to make a **Pull Request** if you try this.
 
 ### Installing on Mac
 
