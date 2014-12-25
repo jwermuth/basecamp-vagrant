@@ -7,12 +7,17 @@
 # When you push to a repo, this is the user that will be used
 GIT_USER = "jwermuth"
 
+# Vagrant configuration repo
 # When you push to a repo, this is the repo you will push to 
 # example git@github.com:jwermuth/basecamp-vagrant.git
 # Normally you would want to push to your own clone
 # If you use ssh, you have to provide public key from the virtual machine to github, 
 #    which is not automated. For now, just use https
 GIT_REPO = "https://github.com/jwermuth/basecamp-vagrant.git"
+
+# When you create a CI environment, you will want to test a project somewhere.
+# The default project under test is one I provided. You should add your own here
+REPO_UNDER_CI = "https://github.com/jwermuth/basecamp-java.git"
 
 # This is the email Jenkins will send to when errors occur. Please dont use mine
 EMAIL = "jwermuth@gmail.com"
@@ -44,13 +49,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # I use gradle as build tool
   config.vm.provision "shell", path: "gradle.sh"
   
+  
   # Get, provision and start Jenkins
   #
   # To use jenkins you can log in to the machine with 
   # vagrant ssh
   # and then do sudo su jenkins  
   config.vm.provision "shell", path: "jenkins-install.sh"
-  config.vm.provision "shell", path: "jenkins-configure.sh", args:[GIT_USER, GIT_REPO, EMAIL]
+  config.vm.provision "shell", path: "jenkins-configure.sh", args:[GIT_USER, GIT_REPO, EMAIL, REPO_UNDER_CI]
   #  
   config.vm.provision "shell", path: "jenkins-allow-restart.sh"
   config.vm.provision "shell", path: "jenkins-restart.sh"
