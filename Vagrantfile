@@ -13,7 +13,7 @@ GIT_USER = "jwermuth"
 # Normally you would want to push to your own clone
 # If you use ssh, you have to provide public key from the virtual machine to github, 
 #    which is not automated. For now, just use https
-GIT_REPO = "https://github.com/jwermuth/basecamp-vagrant.git"
+GIT_JENKINS_CONFIGURATION_REPO = "https://github.com/jwermuth/basecamp-jenkins.git"
 
 # When you create a CI environment, you will want to test a project somewhere.
 # The default project under test is one I provided. You should add your own here
@@ -56,7 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # vagrant ssh
   # and then do sudo su jenkins  
   config.vm.provision "shell", path: "jenkins-install.sh"
-  config.vm.provision "shell", path: "jenkins-configure.sh", args:[GIT_USER, GIT_REPO, EMAIL, REPO_UNDER_CI]
+  config.vm.provision "shell", path: "jenkins-configure.sh", args:[GIT_USER, GIT_JENKINS_CONFIGURATION_REPO, EMAIL, REPO_UNDER_CI]
   #  
   config.vm.provision "shell", path: "jenkins-allow-restart.sh"
   config.vm.provision "shell", path: "jenkins-restart.sh"
