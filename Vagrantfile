@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
 
   # Update package system. You can skip this during development
-  #config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
+  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
   
   # Development environment
   config.vm.provision "shell", path: "java.sh"
