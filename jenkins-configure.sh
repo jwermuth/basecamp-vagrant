@@ -15,8 +15,8 @@ if [ ! -d .git ]
 then 
 	echo There is no git here, so Ill clone jenkins configuration from github
     sudo su - jenkins -c "rm -rf tmp && git clone $GIT_JENKINS_CONFIGURATION_REPO tmp && mv tmp/.git . && rm -rf tmp && git reset --hard"
-    git config user.email $EMAIL
-    git config user.name $GIT_USER
+    sudo su - jenkins -c "git config user.email $EMAIL"
+    sudo su - jenkins -c "git config user.name $GIT_USER"
 
 	echo Jenkins-configure.sh says: Attempting to restart Jenkins
     sudo service jenkins restart
@@ -24,6 +24,3 @@ else
 	echo There is a git controlled jenkins configuration already. It will be updated.
 	git pull origin master
 fi
-
-
-

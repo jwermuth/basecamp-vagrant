@@ -6,7 +6,7 @@
 
 # When you push to a repo, this is the user that will be used
 GIT_USER = "jwermuth"
-
+DEVELOPER_ID = "jwermuth"
 # Vagrant configuration repo
 # When you push to a repo, this is the repo you will push to 
 # example git@github.com:jwermuth/basecamp-vagrant.git
@@ -38,9 +38,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+  
+  
+ config.vm.provider :virtualbox do |vb|
+  # Don't boot with headless mode as default. Use if needed. Vagrant will sometimes tell you to use
+  # gui when an error occurs
+  #
+  #vb.gui = true
+  #
+  #   # Use VBoxManage to customize the VM. For example to change memory:
+  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+  
 
   # Update package system. You can skip this during development
   config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
+
+  # Machine environment
+  config.vm.provision "shell", path: "configure-machine-environment.sh", args:[DEVELOPER_ID]
+
   
   # Development environment
   config.vm.provision "shell", path: "java.sh"
@@ -64,8 +80,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 8080, host: 8080  
   
 end
-
-
 
 
 # All the stuff below is what was in the example Vagrantfile created with vagrant init.
