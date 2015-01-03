@@ -33,14 +33,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "trusty64"
-  
-  # The url from where the 'config.vm.box' box will be fetched if it
-  # doesn't already exist on the user's system.
-  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
   
   
- config.vm.provider :virtualbox do |vb|
+ #config.vm.provider :virtualbox do |vb|
   # Don't boot with headless mode as default. Use if needed. Vagrant will sometimes tell you to use
   # gui when an error occurs
   #
@@ -48,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   #   # Use VBoxManage to customize the VM. For example to change memory:
   #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-  end
+#  end
   
 
   # Update package system. You can skip this during development
@@ -65,20 +60,48 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # I use gradle as build tool
   config.vm.provision "shell", path: "gradle.sh"
   
-  
-  # Get, provision and start Jenkins
-  #
-  # To use jenkins you can log in to the machine with 
-  # vagrant ssh
-  # and then do sudo su jenkins  
-  config.vm.provision "shell", path: "jenkins-install.sh"
-  config.vm.provision "shell", path: "jenkins-configure.sh", args:[GIT_USER, GIT_JENKINS_CONFIGURATION_REPO, EMAIL, REPO_UNDER_CI]
-  #  
-  config.vm.provision "shell", path: "jenkins-allow-restart.sh"
-  config.vm.provision "shell", path: "jenkins-restart.sh"
-  
-  config.vm.network :forwarded_port, guest: 8080, host: 8080  
-  
+  config.vm.define "dev" do |dev|
+  	dev.vm.box = "ubuntu-trusty-64"
+  	dev.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+  	dev.vm.network :forwarded_port, guest: 8080, host: 8081
+  	dev.vm.provision "shell", inline: "sudo apt-get update; sudo apt-get -y install ubuntu-gnome-desktop"
+  	
+  	config.ssh.forward_agent = true
+	config.ssh.forward_x11 = true 
+
+  	dev.vm.provider :virtualbox do |vb|
+		vb.gui = true
+	
+		vb.customize ["modifyvm", :id, "--memory", "2048"]
+		vb.customize ["modifyvm", :id, "--cpus", "2"]
+		vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
+		vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+		vb.customize ["modifyvm", :id, "--ioapic", "on"]
+		vb.customize ["modifyvm", :id, "--vram", "128"]
+		vb.customize ["modifyvm", :id, "--hwvirtex", "on"] 
+  	end
+  end
+
+  config.vm.define "ci" do |ci|
+  	ci.vm.box = "trusty64"
+	# The url from where the 'config.vm.box' box will be fetched if it
+  	# doesn't already exist on the user's system.
+  	ci.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+  	ci.vm.network :forwarded_port, guest: 8080, host: 8090
+  	#ci.vm.network :forwarded_port, guest: 22, host: 2201
+  	
+	# Get, provision and start Jenkins
+	#
+	# To use jenkins you can log in to the machine with 
+	# vagrant ssh
+	# and then do sudo su jenkins  
+	ci.vm.provision "shell", path: "jenkins-install.sh"
+	ci.vm.provision "shell", path: "jenkins-configure.sh", args:[GIT_USER, GIT_JENKINS_CONFIGURATION_REPO, EMAIL, REPO_UNDER_CI]
+	ci.vm.provision "shell", path: "jenkins-allow-restart.sh"
+	ci.vm.provision "shell", path: "jenkins-restart.sh"
+  end
+
+   
 end
 
 
