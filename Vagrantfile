@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
 
   # Machine environment
-  config.vm.provision "shell", path: "configure-machine-environment.sh", args:[DEVELOPER_ID]
+  config.vm.provision "shell", path: "configure-machine-environment.sh", args:[DEVELOPER_ID, EMAIL]
 
   
   # Development environment

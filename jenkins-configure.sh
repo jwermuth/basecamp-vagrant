@@ -18,9 +18,11 @@ then
     sudo su - jenkins -c "git config --global user.email $EMAIL"
     sudo su - jenkins -c "git config --global user.name $GIT_USER"
 
-	echo Jenkins-configure.sh says: Attempting to restart Jenkins
-    sudo service jenkins restart
 else 
 	echo There is a git controlled jenkins configuration already. It will be updated.
 	git pull origin master
 fi
+
+echo Jenkins-configure.sh says: Attempting to restart Jenkins
+sudo service jenkins restart
+
