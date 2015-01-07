@@ -67,16 +67,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	ci.vm.network :forwarded_port, guest: 8080, host: 8080  
   end
   
-#	(["dev", "ci"]).each do |id|
-#			config.vm.define "#{id}" do |machine|  
-#		# Development environment
-#		machine.vm.provision "shell", path: "java.sh"
-#		# installing jenkins requires git
-#		machine.vm.provision "shell", path: "git.sh"
-#		# I use gradle as build tool
-#		machine.vm.provision "shell", path: "gradle.sh"
-#	end 
-#end
+	(["dev", "ci"]).each do |id|
+			config.vm.define "#{id}" do |machine|  
+		# Development environment
+		machine.vm.provision "shell", path: "java.sh"
+		# installing jenkins requires git
+		machine.vm.provision "shell", path: "git.sh"
+		# I use gradle as build tool
+		machine.vm.provision "shell", path: "gradle.sh"
+		end 
+	end
 
   # Update package system. You can skip this during Vagrantfile development
   config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
