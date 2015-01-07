@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.define "dev", autostart: false  
 
   # Update package system. You can skip this during Vagrantfile development
-  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
+  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing -y"
   
   
   config.vm.define "dev" do |dev|
@@ -52,8 +52,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		vb.customize ["modifyvm", :id, "--vram", "128"]
 		vb.customize ["modifyvm", :id, "--hwvirtex", "on"] 
 	end
-  end  
-
+  end
+  
   config.vm.define "ci" do |ci|
 	ci.vm.box = "trusty64"
 	ci.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
@@ -84,3 +84,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	end
 
 end
+
+# If you need some hints, do 
+# vagrant init 
+# in some dir. The example Vagrantfile created will contain examples on how to do stuff
+
+# Nifty little move to make a local base box. After the box is created do:
+#  vagrant package --base "VIRTUALBOX_ID"
+#  vagrant 
+#  config.vm.define "baseci" do |bi|
+#	bi.vm.box = "trusty64"
+#	bi.vm.provision "shell", inline: "sudo apt-get update --fix-missing -y"
+#	bi.vm.provision "shell", inline: "sudo apt-get upgrade --fix-missing -y"
+# end
+    
