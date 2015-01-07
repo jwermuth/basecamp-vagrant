@@ -31,8 +31,13 @@ EMAIL = "jwermuth@gmail.com"
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # dont start dev machine when running vagrant up
+
+  # dont start machine when running vagrant up
   # config.vm.define "dev", autostart: false  
+
+  # Update package system. You can skip this during Vagrantfile development
+  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
+  
   
   config.vm.define "dev" do |dev|
 	dev.vm.box = "Ubuntu 14.04 Desktop"
@@ -78,6 +83,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		end 
 	end
 
-  # Update package system. You can skip this during Vagrantfile development
-  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
 end
