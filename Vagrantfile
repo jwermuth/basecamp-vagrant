@@ -35,47 +35,53 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # dont start machine when running vagrant up
   # config.vm.define "dev", autostart: false
 
-  # Update package system. You can skip this during Vagrantfile development
 
+# Update package system. You can skip this during Vagrantfile development
 # update fails at the moment ....
-#  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
+#	config.vm.provision "shell", inline: "sudo apt-get update --fix-missing -y"
+#	config.vm.provision "shell", inline: "sudo apt-get upgrade -y"
   
-  config.vm.define "dev" do |dev|
-	dev.vm.box = "jesperwermuth/Ubuntu-14-04-Desktop"
-	dev.vm.box_url = "https://atlas.hashicorp.com/jesperwermuth/boxes/Ubuntu-14-04-Desktop"
-    dev.vm.provider :virtualbox do |vb|
-		vb.gui = true
-		vb.customize ["modifyvm", :id, "--memory", "2048"]
-		vb.customize ["modifyvm", :id, "--cpus", "2"]
-		vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
-		vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
-		vb.customize ["modifyvm", :id, "--ioapic", "on"]
-		vb.customize ["modifyvm", :id, "--vram", "128"]
-		vb.customize ["modifyvm", :id, "--hwvirtex", "on"] 
+	config.vm.define "dev" do |dev|
+		dev.vm.box = "jesperwermuth/Ubuntu-14-04-Desktop"
+		dev.vm.box_url = "https://atlas.hashicorp.com/jesperwermuth/boxes/Ubuntu-14-04-Desktop"
+	    dev.vm.provider :virtualbox do |vb|
+			vb.gui = true
+			vb.customize ["modifyvm", :id, "--memory", "2048"]
+			vb.customize ["modifyvm", :id, "--cpus", "2"]
+			vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
+			vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+			vb.customize ["modifyvm", :id, "--ioapic", "on"]
+			vb.customize ["modifyvm", :id, "--vram", "128"]
+			vb.customize ["modifyvm", :id, "--hwvirtex", "on"] 
+		end
+		
+		config.vm.provision :puppet do |puppet|
+			puppet.manifests_path = "manifests"
+			puppet.module_path = "modules"
+			puppet.manifest_file = "init.pp"
+		end		
 	end
-  end
   
-  config.vm.define "ci" do |ci|
-	ci.vm.box = "jesperwermuth/Ubuntu-14-04-Headless"
+	config.vm.define "ci" do |ci|
+		ci.vm.box = "jesperwermuth/Ubuntu-14-04-Headless"
+		ci.vm.box_url = "https://atlas.hashicorp.com/jesperwermuth/boxes/Ubuntu-14-04-Headless"
 	
-	ci.vm.box_url = "https://atlas.hashicorp.com/jesperwermuth/boxes/Ubuntu-14-04-Headless"
-	# Machine environment
-	ci.vm.provision "shell", path: "configure-machine-environment.sh", args:[DEVELOPER_ID, EMAIL]
-	# Get, provision and start Jenkins
-	#	
-	# To use jenkins you can log in to the machine with 
-	# vagrant ssh
-	# and then do sudo su jenkins  
-	ci.vm.provision "shell", path: "jenkins-install.sh"
-	ci.vm.provision "shell", path: "jenkins-configure.sh", args:[GIT_USER, GIT_JENKINS_CONFIGURATION_REPO, EMAIL, REPO_UNDER_CI]
-	#  
-	ci.vm.provision "shell", path: "jenkins-allow-restart.sh"
-	ci.vm.provision "shell", path: "jenkins-restart.sh"
-	ci.vm.network :forwarded_port, guest: 8080, host: 8080  
-  end
+		ci.vm.provision "shell", path: "configure-machine-environment.sh", args:[DEVELOPER_ID, EMAIL]
+		# Get, provision and start Jenkins
+		#	
+		# To use jenkins you can log in to the machine with 
+		# vagrant ssh
+		# and then do sudo su jenkins  
+		ci.vm.provision "shell", path: "jenkins-install.sh"
+		ci.vm.provision "shell", path: "jenkins-configure.sh", args:[GIT_USER, GIT_JENKINS_CONFIGURATION_REPO, EMAIL, REPO_UNDER_CI]
+		#  
+		ci.vm.provision "shell", path: "jenkins-allow-restart.sh"
+		ci.vm.provision "shell", path: "jenkins-restart.sh"
+		ci.vm.network :forwarded_port, guest: 8080, host: 8080  
+	end
   
-	(["dev", "ci"]).each do |id|
-		config.vm.define "#{id}" do |machine|  
+	(["dev", "ci"]).each do |setup_dev_env|
+		config.vm.define "#{setup_dev_env}" do |machine|  
 		# Development environment
 		machine.vm.provision "shell", path: "java.sh"
 		# installing jenkins requires git
