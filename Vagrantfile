@@ -55,6 +55,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			vb.customize ["modifyvm", :id, "--hwvirtex", "on"] 
 		end
 		
+		config.vm.provision "shell", inline: "sudo apt-get install puppet -y"
+		
 		config.vm.provision :puppet do |puppet|
 			puppet.manifests_path = "manifests"
 			puppet.module_path = "modules"
