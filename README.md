@@ -14,7 +14,7 @@ The machine will have a little development environment installed (Java, gradle, 
 At the hour of writing, I have:
 - Virtualbox 4.3.10
 - Ubuntu 14.04.
-- vagrant 1.4.3
+- vagrant 1.7.something (http://www.vagrantup.com/downloads.html)
 
 ### Installing on Ubuntu
 
