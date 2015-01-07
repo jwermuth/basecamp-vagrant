@@ -33,15 +33,16 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # dont start machine when running vagrant up
-  # config.vm.define "dev", autostart: false  
+  # config.vm.define "dev", autostart: false
 
   # Update package system. You can skip this during Vagrantfile development
-  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing -y"
-  
+
+# update fails at the moment ....
+#  config.vm.provision "shell", inline: "sudo apt-get update --fix-missing"
   
   config.vm.define "dev" do |dev|
-	dev.vm.box = "Ubuntu 14.04 Desktop"
-	# dev.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-
+	dev.vm.box = "jesperwermuth/Ubuntu-14-04-Desktop"
+	dev.vm.box_url = "https://atlas.hashicorp.com/jesperwermuth/boxes/Ubuntu-14-04-Desktop"
     dev.vm.provider :virtualbox do |vb|
 		vb.gui = true
 		vb.customize ["modifyvm", :id, "--memory", "2048"]
@@ -55,12 +56,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
   
   config.vm.define "ci" do |ci|
-	ci.vm.box = "trusty64"
-	ci.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+	ci.vm.box = "jesperwermuth/Ubuntu-14-04-Headless"
+	
+	ci.vm.box_url = "https://atlas.hashicorp.com/jesperwermuth/boxes/Ubuntu-14-04-Headless"
 	# Machine environment
 	ci.vm.provision "shell", path: "configure-machine-environment.sh", args:[DEVELOPER_ID, EMAIL]
 	# Get, provision and start Jenkins
-	#
+	#	
 	# To use jenkins you can log in to the machine with 
 	# vagrant ssh
 	# and then do sudo su jenkins  
@@ -82,7 +84,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		machine.vm.provision "shell", path: "gradle.sh"
 		end 
 	end
-
 end
 
 # If you need some hints, do 
