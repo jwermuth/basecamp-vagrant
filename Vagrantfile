@@ -73,7 +73,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
   
 	(["dev", "ci"]).each do |id|
-			config.vm.define "#{id}" do |machine|  
+		config.vm.define "#{id}" do |machine|  
 		# Development environment
 		machine.vm.provision "shell", path: "java.sh"
 		# installing jenkins requires git
