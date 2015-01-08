@@ -61,7 +61,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		
 		config.vm.provision :puppet do |puppet|
 			puppet.facter = {
-			      "developer" => DEVELOPER_ID
+			      "developer" => DEVELOPER_ID,
+			      "ciip" => "192.168.50.11"
 			    }		
 			puppet.manifests_path = "manifests"
 			puppet.module_path = "modules"

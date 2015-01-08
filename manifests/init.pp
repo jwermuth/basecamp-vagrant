@@ -17,3 +17,8 @@ group {$developer:
 # Here we are using (sending to the client) the 
 # User resource defined in the @ Virtual resource style above
 realize User[$developer]
+
+host { 'ci':
+    ip => $ciip,
+}
+
