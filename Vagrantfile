@@ -55,6 +55,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			vb.customize ["modifyvm", :id, "--hwvirtex", "on"] 
 		end
 		
+		dev.vm.network "private_network", ip: "192.168.50.10"
+		
 		config.vm.provision "shell", inline: "sudo apt-get install puppet -y"
 		
 		config.vm.provision :puppet do |puppet|
@@ -70,6 +72,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.define "ci" do |ci|
 		ci.vm.box = "jesperwermuth/Ubuntu-14-04-Headless"
 		ci.vm.box_url = "https://atlas.hashicorp.com/jesperwermuth/boxes/Ubuntu-14-04-Headless"
+		
+		ci.vm.network "private_network", ip: "192.168.50.11"
+		
 	
 		ci.vm.provision "shell", path: "configure-machine-environment.sh", args:[DEVELOPER_ID, EMAIL]
 		# Get, provision and start Jenkins
