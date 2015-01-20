@@ -32,14 +32,12 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  # dont start machine when running vagrant up
-  # config.vm.define "dev", autostart: false
+  	# dont start machine when running vagrant up
+  	# config.vm.define "dev", autostart: false
 
-
-# Update package system. You can skip this during Vagrantfile development
-# update fails at the moment ....
-#	config.vm.provision "shell", inline: "sudo apt-get update --fix-missing -y"
-#	config.vm.provision "shell", inline: "sudo apt-get upgrade -y"
+	# Update package system. You can skip this during Vagrantfile development
+	config.vm.provision "shell", inline: "sudo apt-get update --fix-missing -y"
+	config.vm.provision "shell", inline: "sudo apt-get upgrade -y"
   
 	config.vm.define "dev" do |dev|
 		dev.vm.box = "jesperwermuth/Ubuntu-14-04-Desktop"
@@ -57,9 +55,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		
 		dev.vm.network "private_network", ip: "192.168.50.10"
 		
-		config.vm.provision "shell", inline: "sudo apt-get install puppet -y"
+		dev.vm.provision "shell", inline: "sudo apt-get install puppet -y"
 		
-		config.vm.provision :puppet do |puppet|
+		dev.vm.provision :puppet do |puppet|
 			puppet.facter = {
 			      "developer" => DEVELOPER_ID,
 			      "ciip" => "192.168.50.11"
@@ -70,14 +68,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		end		
 	end
   
+	(["dev", "ci"]).each do |setup_dev_env|
+		config.vm.define "#{setup_dev_env}" do |machine|
+		  
+		# Development environment
+		machine.vm.provision "shell", path: "java.sh"
+		# installing jenkins requires git
+		machine.vm.provision "shell", path: "git.sh"
+		# I use gradle as build tool
+		machine.vm.provision "shell", path: "gradle.sh"
+		end 
+	end
+  
 	config.vm.define "ci" do |ci|
 		ci.vm.box = "jesperwermuth/Ubuntu-14-04-Headless"
 		ci.vm.box_url = "https://atlas.hashicorp.com/jesperwermuth/boxes/Ubuntu-14-04-Headless"
 		
 		ci.vm.network "private_network", ip: "192.168.50.11"
-		
-	
+
+		# Environment variables
 		ci.vm.provision "shell", path: "configure-machine-environment.sh", args:[DEVELOPER_ID, EMAIL]
+		
 		# Get, provision and start Jenkins
 		#	
 		# To use jenkins you can log in to the machine with 
@@ -91,16 +102,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		ci.vm.network :forwarded_port, guest: 8080, host: 8080  
 	end
   
-	(["dev", "ci"]).each do |setup_dev_env|
-		config.vm.define "#{setup_dev_env}" do |machine|  
-		# Development environment
-		machine.vm.provision "shell", path: "java.sh"
-		# installing jenkins requires git
-		machine.vm.provision "shell", path: "git.sh"
-		# I use gradle as build tool
-		machine.vm.provision "shell", path: "gradle.sh"
-		end 
-	end
 end
 
 # If you need some hints, do 
