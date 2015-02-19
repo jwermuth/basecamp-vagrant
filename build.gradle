@@ -4,6 +4,10 @@
 apply plugin: 'eclipse'
 
 
+// It should not be necessary to execute this task, since I have already done it, 
+// and added the output git. The effect should be that you are able to call
+// ./gradlew (linux) or
+// gradle.bat (windows) to execute gradle tasks
 // Allow (me) to build gradle wrapper (gradlew and gradlew.bat) so 
 // other can run the build targets without having gradle installed
 task createWrapper(type: Wrapper) {

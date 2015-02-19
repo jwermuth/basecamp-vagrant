@@ -6,7 +6,6 @@
 
 # Gradle wrapper
 /.gradle/
-gradle/
 
 # Eclipse
 .project
