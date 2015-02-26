@@ -6,9 +6,22 @@
 
 ## ci machine 
 
+
 # When you push to a repo, this is the user that will be used
-GIT_USER = "jwermuth"
-DEVELOPER_ID = "jwermuth"
+DEVELOPER_ID = ENV['USER']
+GIT_USER = ENV['USER']
+# USER on Linux
+# USERNAME on Windows
+
+if DEVELOPER_ID.empty?
+	DEVELOPER_ID = "anonymous"
+	GIT_USER = "anonymous"
+end 
+
+puts "Developer id is [#{DEVELOPER_ID}]"
+puts "Git user is [#{GIT_USER}]"
+
+
 # Vagrant configuration repo
 # When you push to a repo, this is the repo you will push to 
 # example git@github.com:jwermuth/basecamp-vagrant.git
@@ -22,7 +35,7 @@ GIT_JENKINS_CONFIGURATION_REPO = "https://github.com/jwermuth/basecamp-jenkins.g
 REPO_UNDER_CI = "https://github.com/jwermuth/basecamp-java.git"
 
 # This is the email Jenkins will send to when errors occur. Please dont use mine
-EMAIL = "jwermuth@gmail.com"
+EMAIL = "xxxx@gmail.com"
 ## end ci machine
 
 #####################################################################################
